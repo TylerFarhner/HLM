@@ -1,7 +1,11 @@
 import React from 'react'
-import { View, TextInput, TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet, Image, Platform } from 'react-native'
+import { View, TextInput, TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet, Image, Platform, Alert } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
+import { useDispatch } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+import * as authAction from '../redux/actions/authAction'
 
 const formSchema = yup.object({
     fullName: yup.string().required().min(3),
@@ -10,6 +14,9 @@ const formSchema = yup.object({
 })
 
 export default function RegisterScreen(navData) {
+
+    const dispatch = useDispatch();
+
     return (
         <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -23,8 +30,20 @@ export default function RegisterScreen(navData) {
                     }}
                     validationSchema={ formSchema }
                     onSubmit={(values) => {
-                        console.log(values)
-                        navData.navigation.navigate('Home')
+                        dispatch(authAction.registerUser(values))
+                            .then( async result => {
+                                if(result.success) {
+                                    try {
+                                        await AsyncStorage.setItem('token', result.token)
+                                        navData.navigation.navigate('Home')
+                                    } catch(err) {
+                                        console.log(err)
+                                    }
+                                } else {
+                                    Alert.alert('Registration failed, please try again.')
+                                }
+                            })
+                            .catch(err => console.log(err))
                     }}
                 >
                     {(props) => (
