@@ -1,11 +1,17 @@
 import React from 'react'
-import { View, TextInput, TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet, Image } from 'react-native'
+import { View, TextInput, TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet, Image, Platform } from 'react-native'
 import {Formik} from 'formik'
+import * as yup from 'yup'
+
+const formSchema = yup.object({
+    email: yup.string().email().required(),
+    password: yup.string().required().min(6)
+})
 
 export default function LoginScreen(navData) {
     return (
         <KeyboardAvoidingView
-            behavior="padding"
+            behavior={Platform.OS === "ios" ? "padding": "height"}
             style={{ flex: 1 }}
         >
                 <Formik
@@ -13,6 +19,7 @@ export default function LoginScreen(navData) {
                         email: "",
                         password: ""
                     }}
+                    validationSchema={ formSchema }
                     onSubmit={(values) => {
                         console.log(values);
                         navData.navigation.navigate('Home')
@@ -31,7 +38,9 @@ export default function LoginScreen(navData) {
                                     keyboardType="email-address"
                                     onChangeText={props.handleChange('email')}
                                     value={props.values.email}
+                                    onBlur={ props.handleBlur('email') }
                                 />
+                                <Text style={ styles.error }>{ props.touched.email && props.errors.email }</Text>
                                 <TextInput 
                                     style={ styles.inputBox } 
                                     placeholder="Password"
@@ -39,7 +48,9 @@ export default function LoginScreen(navData) {
                                     secureTextEntry={true}
                                     onChangeText={props.handleChange('password')}
                                     value={props.values.password}
+                                    onBlur={ props.handleBlur('password') }
                                 />
+                                <Text style={ styles.error }>{ props.touched.password && props.errors.password }</Text>
                                 <TouchableOpacity 
                                 style={ styles.button }
                                 onPress={props.handleSubmit}
@@ -122,6 +133,10 @@ const styles = StyleSheet.create({
         color: '#738289',
         fontSize: 16,
         fontWeight: 'bold'
+    },
+
+    error: {
+        color: 'red'
     }
 
 })
