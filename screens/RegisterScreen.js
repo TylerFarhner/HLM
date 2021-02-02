@@ -2,7 +2,7 @@ import React from 'react'
 import { View, TextInput, TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet, Image } from 'react-native'
 import { Formik } from 'formik'
 
-export default function RegisterScreen() {
+export default function RegisterScreen(navData) {
     return (
         <KeyboardAvoidingView
             behavior="padding"
@@ -55,7 +55,9 @@ export default function RegisterScreen() {
                                 </TouchableOpacity>
                                 <View style={ styles.registerContainer }>
                                     <Text style={ styles.registerText }>Have an account?</Text>
-                                    <TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => navData.navigation.navigate('Login')}
+                                    >
                                         <Text style={ styles.registerButton }>Login</Text>
                                     </TouchableOpacity>
                                 </View>
