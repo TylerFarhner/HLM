@@ -14,7 +14,8 @@ export default function LoginScreen(navData) {
                         password: ""
                     }}
                     onSubmit={(values) => {
-                        console.log(values)
+                        console.log(values);
+                        navData.navigation.navigate('Home')
                     }}
                 >
                     {(props) => (

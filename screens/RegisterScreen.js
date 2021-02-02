@@ -16,6 +16,7 @@ export default function RegisterScreen(navData) {
                     }}
                     onSubmit={(values) => {
                         console.log(values)
+                        navData.navigation.navigate('Home')
                     }}
                 >
                     {(props) => (
