@@ -11,7 +11,7 @@ const formSchema = yup.object({
 export default function LoginScreen(navData) {
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding": "height"}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
                 <Formik
@@ -62,7 +62,7 @@ export default function LoginScreen(navData) {
                                     <TouchableOpacity
                                         onPress={() => navData.navigation.navigate('Register')}
                                     >
-                                        <Text style={ styles.registerButton }>Register Here.</Text>
+                                        <Text style={ styles.registerButton }> Register Here.</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

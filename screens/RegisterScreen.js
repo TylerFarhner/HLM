@@ -1,11 +1,18 @@
 import React from 'react'
-import { View, TextInput, TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet, Image } from 'react-native'
+import { View, TextInput, TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet, Image, Platform } from 'react-native'
 import { Formik } from 'formik'
+import * as yup from 'yup'
+
+const formSchema = yup.object({
+    fullName: yup.string().required().min(3),
+    email: yup.string().email().required(),
+    password: yup.string().required().min(6)
+})
 
 export default function RegisterScreen(navData) {
     return (
         <KeyboardAvoidingView
-            behavior="padding"
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
                 <Formik
@@ -14,6 +21,7 @@ export default function RegisterScreen(navData) {
                         email: "",
                         password: ""
                     }}
+                    validationSchema={ formSchema }
                     onSubmit={(values) => {
                         console.log(values)
                         navData.navigation.navigate('Home')
@@ -31,7 +39,9 @@ export default function RegisterScreen(navData) {
                                     placeholderTextColor="#fff"
                                     onChangeText={props.handleChange('fullName')}
                                     value={props.values.fullName}
+                                    onBlur={ props.handleBlur('fullName') }
                                 />
+                                <Text style={ styles.error }>{ props.touched.fullName && props.errors.fullName }</Text>
                                 <TextInput 
                                     style={ styles.inputBox } 
                                     placeholder="Email"
@@ -39,7 +49,9 @@ export default function RegisterScreen(navData) {
                                     keyboardType="email-address"
                                     onChangeText={props.handleChange('email')}
                                     value={props.values.email}
+                                    onBlur={ props.handleBlur('email') }
                                 />
+                                <Text style={ styles.error }>{ props.touched.email && props.errors.email }</Text>
                                 <TextInput 
                                     style={ styles.inputBox } 
                                     placeholder="Password"
@@ -47,7 +59,9 @@ export default function RegisterScreen(navData) {
                                     secureTextEntry={true}
                                     onChangeText={props.handleChange('password')}
                                     value={props.values.password}
+                                    onBlur={ props.handleBlur('password') }
                                 />
+                                <Text style={ styles.error }>{ props.touched.password && props.errors.password }</Text>
                                 <TouchableOpacity 
                                 style={ styles.button }
                                 onPress={props.handleSubmit}
@@ -59,7 +73,7 @@ export default function RegisterScreen(navData) {
                                     <TouchableOpacity
                                         onPress={() => navData.navigation.navigate('Login')}
                                     >
-                                        <Text style={ styles.registerButton }>Login</Text>
+                                        <Text style={ styles.registerButton }> Login</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -130,6 +144,10 @@ const styles = StyleSheet.create({
         color: '#738289',
         fontSize: 16,
         fontWeight: 'bold'
+    },
+    
+    error: {
+        color: 'red'
     }
 
 })
