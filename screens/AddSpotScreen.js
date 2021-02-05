@@ -11,12 +11,15 @@ const AddSpotScreen = () => {
                         style={styles.input}
                     />
                 </View>
+                
                 <View style={styles.formGroup}>
-                    <Text style={styles.label}>Image URL</Text>
+                    <Text style={styles.label}>City</Text>
                     <TextInput 
                         style={styles.input}
+                        multiline
                     />
                 </View>
+
                 <View style={styles.formGroup}>
                     <Text style={styles.label}>Address</Text>
                     <TextInput 
@@ -29,6 +32,13 @@ const AddSpotScreen = () => {
                     <TextInput 
                         style={styles.input}
                         multiline
+                    />
+                </View>
+
+                <View style={styles.formGroup}>
+                    <Text style={styles.label}>Image URL</Text>
+                    <TextInput 
+                        style={styles.input}
                     />
                 </View>
 

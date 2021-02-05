@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Button } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { FloatingAction } from 'react-native-floating-action'
 
+import Card from '../components/Card'
+
 const jwtDecode = require('jwt-decode')
 
 export default function HomeScreen(props) {
@@ -35,18 +37,22 @@ export default function HomeScreen(props) {
 
     return (
         <View style={ styles.container }>
-            <View>
+            {/* <View>
                 <Text style={ styles.text }>Welcome { fullName ? fullName: '' }</Text>
             </View>
             <View>
                 <Text style={ styles.text }>Your Email { email ? email: '' }</Text>
-            </View>
+            </View> */}
 
             <FloatingAction 
                 position="right"
                 animated={ false }
                 showBackground={ false }
                 onPressMain={ () => props.navigation.navigate('AddSpot') }
+            />
+
+            <Card 
+                navigation={ props.navigation }
             />
 
             <View>
@@ -62,7 +68,7 @@ export default function HomeScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 40
+        // padding: 40
     },
 
     text: {
