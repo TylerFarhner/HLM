@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { FloatingAction } from 'react-native-floating-action'
 
 const jwtDecode = require('jwt-decode')
 
@@ -40,6 +41,14 @@ export default function HomeScreen(props) {
             <View>
                 <Text style={ styles.text }>Your Email { email ? email: '' }</Text>
             </View>
+
+            <FloatingAction 
+                position="right"
+                animated={ false }
+                showBackground={ false }
+                onPressMain={ () => props.navigation.navigate('AddSpot') }
+            />
+
             <View>
                 <Button 
                     title="Logout"

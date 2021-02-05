@@ -14,6 +14,8 @@ import HomeScreen from '../screens/HomeScreen'
 import AboutScreen from '../screens/AboutScreen'
 import FavoritesScreen from '../screens/FavoritesScreen'
 import WeatherScreen from '../screens/WeatherScreen'
+import AddSpotScreen from '../screens/AddSpotScreen'
+import SpotDetailsScreen from '../screens/SpotDetailsScreen'
 
 function HomeNavigator() {
     return(
@@ -30,6 +32,14 @@ function HomeNavigator() {
             <Stack.Screen 
                 name="Favorites"
                 component={ FavoritesScreen }
+            />
+            <Stack.Screen 
+                name="AddSpot"
+                component={ AddSpotScreen }
+            />
+            <Stack.Screen 
+                name="SpotDetails"
+                component={ SpotDetailsScreen }
             />
         </Stack.Navigator>
     )
