@@ -35,6 +35,17 @@ function HomeNavigator() {
     )
 }
 
+function WeatherNavigator() {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen 
+                name='Weather'
+                component={ WeatherScreen }
+            />
+        </Stack.Navigator>
+    )
+}
+
 function TabNavigator() {
     return(
         <Tab.Navigator
@@ -59,7 +70,7 @@ function TabNavigator() {
             />
             <Tab.Screen 
                 name="Weather"
-                component={ WeatherScreen }
+                component={ WeatherNavigator }
             />
         </Tab.Navigator>
     )
