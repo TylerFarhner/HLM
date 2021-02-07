@@ -1,27 +1,35 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Image} from 'react-native';
+import { useSelector } from 'react-redux'
 
-const SpotDetailsScreen = () => {
+const SpotDetailsScreen = (props) => {
+
+    const { spotId } = props.route.params
+
+    const spot = useSelector(state => state.spot.spots.find(spot => spot._id == spotId))
+
+    console.log(spot)
+    
     return (
         <ScrollView>
             <View style={styles.container}>
                 <View style={styles.heading}>
-                    <Text style={styles.title}>Lake Washington</Text>
+                    <Text style={styles.title}>{spot.title}</Text>
                 </View>
                 <View>
-                    <Image source={require('../assets/images/cardPhoto.jpg')} style={styles.image} />
+                    <Image source={{ uri: spot.image }} style={styles.image} />
                 </View>
                 <View style={styles.group}>
                     <Text style={styles.label}>City: </Text>
-                    <Text style={styles.value}>Seattle, WA</Text>
+                    <Text style={styles.value}>{ spot.city }</Text>
                 </View>
                 <View style={styles.group}>
                     <Text style={styles.label}>Address: </Text>
-                    <Text style={styles.value}>yo mamys house</Text>
+                    <Text style={styles.value}>{ spot.address }</Text>
                 </View>
                 <View style={styles.group}>
                     <Text style={styles.label}>Description: </Text>
-                    <Text style={styles.value}>Easy-access location on Lake Washington</Text>
+                    <Text style={styles.value}>{ spot.description }</Text>
                 </View>
             </View>
         </ScrollView>

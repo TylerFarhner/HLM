@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { View, Text, StyleSheet, Button, FlatList } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { FloatingAction } from 'react-native-floating-action'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Card from '../components/Card'
+import * as spotAction from '../redux/actions/spotAction'
 
 const jwtDecode = require('jwt-decode')
 
 export default function HomeScreen(props) {
+
+    const dispatch = useDispatch()
+
+    const spots = useSelector(state => state.spot.spots)
 
     const [ fullName, setFullName ] = useState('')
     const [ email, setEmail ] = useState('')
@@ -33,7 +39,8 @@ export default function HomeScreen(props) {
     
     useEffect(() => {
         loadProfile()
-    })
+        dispatch(spotAction.fetchSpots)
+    }, [dispatch])
 
     return (
         <View style={ styles.container }>
@@ -44,15 +51,27 @@ export default function HomeScreen(props) {
                 <Text style={ styles.text }>Your Email { email ? email: '' }</Text>
             </View> */}
 
+            <FlatList 
+                data={ spots }
+                keyExtractor={ item => item._id }
+                renderItem={ ({item}) => (
+                    <Card 
+                        navigation={ props.navigation }
+                        title={ item.title }
+                        address={ item.address }
+                        city={ item.city }
+                        description={ item.description }
+                        image={ item.image }
+                        id={ item._id }
+                    />
+                ) }
+            />
+
             <FloatingAction 
                 position="right"
                 animated={ false }
                 showBackground={ false }
                 onPressMain={ () => props.navigation.navigate('AddSpot') }
-            />
-
-            <Card 
-                navigation={ props.navigation }
             />
 
             <View>
