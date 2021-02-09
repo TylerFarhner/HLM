@@ -19,15 +19,15 @@ export const fetchSpots = () => {
     }
 }
 
-export const createSpot = ({
-    title,
+export const createSpot = ({ 
+    title, 
     image,
-    address,
     city,
-    description
+    address, 
+    description 
 }) => {
     return async dispatch => {
-        const response = await fetch('https://10.0.0.177:3000/api/spots', {
+        const response = await fetch('http://10.0.0.177:3000/api/spots', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -40,10 +40,10 @@ export const createSpot = ({
                 description
             })
         })
-
+        
         const responseData = await response.json()
         // console.log(responseData)
-
+        
         dispatch({
             type: CREATE_SPOTS,
             payload: responseData

@@ -46,7 +46,7 @@ const AddSpotScreen = () => {
                     }}
                     validationSchema={ formSchema }
                     onSubmit={(values) => {
-                        // console.log(values)
+                        console.log(values)
                         setIsLoading(true)
                         dispatch(spotAction.createSpot(values))
                             .then(() => {
@@ -117,7 +117,7 @@ const AddSpotScreen = () => {
 
                         <View style={styles.buttonContainer}>
                             <Button 
-                                title="Add Home"
+                                title="Add Spot"
                                 onPress={ props.handleSubmit }
                             />
                         </View>
