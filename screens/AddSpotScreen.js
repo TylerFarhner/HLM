@@ -1,29 +1,48 @@
-import React from 'react';
-import {StyleSheet, View, Text, ScrollView, TextInput, Button, KeyboardAvoidingView, Platform, Alert} from 'react-native';
+import React, { useState } from 'react';
+import {StyleSheet, View, Text, ScrollView, TextInput, Button, KeyboardAvoidingView, Alert, ActivityIndicator} from 'react-native';
 import { Formik } from 'formik'
+import * as yup from 'yup'
 import { useDispatch } from 'react-redux'
 
 import * as spotAction from '../redux/actions/spotAction'
 
+const formSchema = yup.object({
+    title: yup.string().required().min(3).max(50),
+    city: yup.string().required(),
+    address: yup.string().required(),
+    description: yup.string().required(),
+    image: yup.string().required(),
+})
+
 const AddSpotScreen = () => {
+
+    const [isLoading, setIsLoading] = useState(false)
+
+    if(isLoading) {
+        return (
+            <View style={ styles.centered }>
+                <ActivityIndicator size="large" />
+            </View>
+        )
+    }
 
     const dispatch = useDispatch()
     
     return (
         <KeyboardAvoidingView
             behavior={Platform.select({android: undefined, ios: 'padding'})}
-            keyboardVerticalOffset={ 100 }
+            keyboardVerticalOffset={100}
+            style={{ flex: 1 }}
         >
-
             <ScrollView>
 
-            <Formik
+                <Formik
                     initialValues={{
                         title: '',
-                        image: '',
-                        address: '',
                         city: '',
-                        description: ''
+                        address: '',
+                        description: '',
+                        image: '',
                     }}
                     validationSchema={ formSchema }
                     onSubmit={(values) => {
@@ -41,55 +60,74 @@ const AddSpotScreen = () => {
                             )
                     }}
                 >
-                    <View style={styles.form}>
+                    {(props) => (
+                        <View style={styles.form}>
                         <View style={styles.formGroup}>
                             <Text style={styles.label}>Title</Text>
                             <TextInput 
                                 style={styles.input}
+                                onChangeText={ props.handleChange('title') }
+                                onBlur={ props.handleBlur('title') }
+                                value={ props.values.title }
                             />
+                            <Text style={ styles.error }>{ props.touched.title && props.errors.title }</Text>
                         </View>
-                        
+                        <View style={styles.formGroup}>
+                            <Text style={styles.label}>Image URL</Text>
+                            <TextInput 
+                                style={styles.input}
+                                onChangeText={ props.handleChange('image') }
+                                onBlur={ props.handleBlur('image') }
+                                value={ props.values.image }
+                            />
+                            <Text style={ styles.error }>{ props.touched.image && props.errors.image }</Text>
+                        </View>
                         <View style={styles.formGroup}>
                             <Text style={styles.label}>City</Text>
                             <TextInput 
                                 style={styles.input}
-                                multiline
+                                onChangeText={ props.handleChange('city') }
+                                onBlur={ props.handleBlur('city') }
+                                value={ props.values.city }
                             />
+                            <Text style={ styles.error }>{ props.touched.city && props.errors.city }</Text>
                         </View>
-
                         <View style={styles.formGroup}>
                             <Text style={styles.label}>Address</Text>
                             <TextInput 
                                 style={styles.input}
-                                multiline
+                                keyboardType="numeric"
+                                onChangeText={ props.handleChange('address') }
+                                onBlur={ props.handleBlur('address') }
+                                value={ props.values.address }
                             />
+                            <Text style={ styles.error }>{ props.touched.address && props.errors.address }</Text>
                         </View>
                         <View style={styles.formGroup}>
                             <Text style={styles.label}>Description</Text>
                             <TextInput 
                                 style={styles.input}
                                 multiline
+                                onChangeText={ props.handleChange('description') }
+                                onBlur={ props.handleBlur('description') }
+                                value={ props.values.description }
                             />
-                        </View>
-
-                        <View style={styles.formGroup}>
-                            <Text style={styles.label}>Image URL</Text>
-                            <TextInput 
-                                style={styles.input}
-                            />
+                            <Text style={ styles.error }>{ props.touched.description && props.errors.description }</Text>
                         </View>
 
                         <View style={styles.buttonContainer}>
                             <Button 
-                                title="Add Hammock Spot"
+                                title="Add Home"
+                                onPress={ props.handleSubmit }
                             />
                         </View>
                     </View>
+                    )}
                 </Formik>
-                
+
+
             </ScrollView>
         </KeyboardAvoidingView>
-        
     );
 }
 
@@ -114,7 +152,18 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginTop: 20
+    },
+
+    error: {
+        color: 'red'
+    },
+
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
+    
 });
 
 export default AddSpotScreen;

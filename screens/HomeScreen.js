@@ -13,6 +13,10 @@ export default function HomeScreen(props) {
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(spotAction.fetchSpots())
+    }, [dispatch])
+
     const spots = useSelector(state => state.spot.spots)
 
     const [ fullName, setFullName ] = useState('')
@@ -39,8 +43,7 @@ export default function HomeScreen(props) {
     
     useEffect(() => {
         loadProfile()
-        dispatch(spotAction.fetchSpots)
-    }, [dispatch])
+    }, [])
 
     return (
         <View style={ styles.container }>
@@ -92,5 +95,12 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 22
+    },
+
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
+    
 })
