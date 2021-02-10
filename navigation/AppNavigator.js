@@ -181,6 +181,7 @@ function AppStackNavigator() {
                 <Stack.Screen
                     name="Home"
                     component={ TabNavigator }
+                    options={{ title: 'Hang Loose' }}
                     // TODO: Create HomeNavigator function and pass in here as component to allow for navigation via the home screen...
                     // ... put home screen inside the function instead of serving it here!
                 />
